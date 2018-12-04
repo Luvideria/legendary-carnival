@@ -1,1 +1,2 @@
 ADD_SUBDIRECTORY("pointillism")
+ADD_SUBDIRECTORY("jsonTests")

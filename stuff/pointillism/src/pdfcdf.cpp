@@ -1,7 +1,9 @@
+#include <cmath>
 #include <vector>
 #include <numeric>
 #include <algorithm>
 #include <iostream>
+
 
 std::vector<float>& cumsum(const std::vector<float> &v, const size_t size)
 {
@@ -11,7 +13,7 @@ std::vector<float>& cumsum(const std::vector<float> &v, const size_t size)
 
 	std::vector<float> *r = new std::vector<float>;
 	r->resize(s);
-	std::inclusive_scan(v.begin(), v.begin()+s, r->begin());
+	//std::inclusive_scan(v.begin(), v.begin()+s, r->begin());
 	return *r;
 }
 

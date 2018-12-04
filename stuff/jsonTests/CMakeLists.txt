@@ -1,0 +1,27 @@
+project( jsonTests )
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set( CMAKE_CXX_STANDARD 17 )
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17" )
+	add_definitions(-std=c++17)
+endif()
+if (MSVC_VERSION GREATER_EQUAL "1900")
+    include(CheckCXXCompilerFlag)
+    CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+    if (_cpp_latest_flag_supported)
+        add_compile_options("/std:c++latest")
+    endif()
+endif()
+
+find_package( OpenMP REQUIRED )
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+
+include_directories( jsonTests ${CMAKE_CURRENT_SOURCE_DIR}/include)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC_LIST)
+
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+message(${CMAKE_CURRENT_SOURCE_DIR}/src/main)
+add_executable(jsonTests "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp" ${SRC_LIST} ${jsonTests})
+
+set_property(TARGET jsonTests PROPERTY CXX_STANDARD 17)
+set_property(TARGET jsonTests PROPERTY CXX_STANDARD_REQUIRED ON)
