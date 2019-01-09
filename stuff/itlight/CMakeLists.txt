@@ -1,0 +1,36 @@
+project( itlight )
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    set( CMAKE_CXX_STANDARD 17 )
+	set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17" )
+	add_definitions(-std=c++17)
+    add_definitions(-std=gnu++17)
+    message(${CMAKE_CXX_FLAGS})
+endif()
+if (MSVC_VERSION GREATER_EQUAL "1900")
+    include(CheckCXXCompilerFlag)
+    CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+    if (_cpp_latest_flag_supported)
+        add_compile_options("/std:c++latest")
+    endif()
+endif()
+
+find_package( lightmetrica REQUIRED )
+find_package( OpenMP REQUIRED )
+set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+
+include_directories( itlight ${CMAKE_CURRENT_SOURCE_DIR}/include)
+aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC_LIST)
+
+list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+
+add_executable(itlight "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp" ${SRC_LIST} ${itlight})
+add_executable(test_itlight "${CMAKE_CURRENT_SOURCE_DIR}/tests/tests.cpp" ${SRC_LIST} ${itlight})
+
+target_link_libraries(itlight PRIVATE lightmetrica::liblm)
+target_link_libraries(test_itlight PRIVATE lightmetrica::liblm)
+
+set_property(TARGET itlight PROPERTY CXX_STANDARD 17)
+set_property(TARGET test_itlight PROPERTY CXX_STANDARD 17)
+set_property(TARGET itlight PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET test_itlight PROPERTY CXX_STANDARD_REQUIRED ON)

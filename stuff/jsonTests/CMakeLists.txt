@@ -20,7 +20,7 @@ include_directories( jsonTests ${CMAKE_CURRENT_SOURCE_DIR}/include)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src SRC_LIST)
 
 list(REMOVE_ITEM SRC_LIST "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
-message(${CMAKE_CURRENT_SOURCE_DIR}/src/main)
+#message(${CMAKE_CURRENT_SOURCE_DIR}/src/main)
 add_executable(jsonTests "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp" ${SRC_LIST} ${jsonTests})
 
 set_property(TARGET jsonTests PROPERTY CXX_STANDARD 17)
